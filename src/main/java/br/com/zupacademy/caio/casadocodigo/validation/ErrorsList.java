@@ -1,4 +1,4 @@
-package br.com.zupacademy.caio.casadocodigo.controller.validation;
+package br.com.zupacademy.caio.casadocodigo.validation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

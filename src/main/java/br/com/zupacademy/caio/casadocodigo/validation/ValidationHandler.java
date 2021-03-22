@@ -1,4 +1,4 @@
-package br.com.zupacademy.caio.casadocodigo.controller.validation;
+package br.com.zupacademy.caio.casadocodigo.validation;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

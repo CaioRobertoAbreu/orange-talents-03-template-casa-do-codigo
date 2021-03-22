@@ -1,4 +1,4 @@
-package br.com.zupacademy.caio.casadocodigo.controller.validation;
+package br.com.zupacademy.caio.casadocodigo.validation;
 
 public class ErroDtoResponse {
 

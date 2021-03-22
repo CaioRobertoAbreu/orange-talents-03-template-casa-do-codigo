@@ -13,7 +13,7 @@ public class Autor {
     private Long id;
     @Column(nullable = false)
     private String nome;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Email
     private String email;
     @Column(length = 400, nullable = false)
