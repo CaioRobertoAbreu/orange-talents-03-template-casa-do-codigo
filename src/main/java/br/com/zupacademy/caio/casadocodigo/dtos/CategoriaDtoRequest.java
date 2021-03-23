@@ -1,15 +1,16 @@
 package br.com.zupacademy.caio.casadocodigo.dtos;
 
 import br.com.zupacademy.caio.casadocodigo.model.Categoria;
-import br.com.zupacademy.caio.casadocodigo.validation.custom.NotDuplicatedCategoria;
+import br.com.zupacademy.caio.casadocodigo.validation.custom.NotDuplicatedField;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.validation.constraints.NotEmpty;
 
+
 public class CategoriaDtoRequest {
 
     @NotEmpty
-    @NotDuplicatedCategoria
+    @NotDuplicatedField(domain = "categoria")
     private String nome;
 
     @JsonCreator
