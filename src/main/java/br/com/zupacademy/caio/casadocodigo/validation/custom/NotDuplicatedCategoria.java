@@ -10,14 +10,15 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+
 @Target({ FIELD, METHOD, PARAMETER, ANNOTATION_TYPE, TYPE_USE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailDuplicadoValidation.class)
+@Constraint(validatedBy = NotDuplicatedCategoriaValidation.class)
 @Documented
-@Repeatable(EmailDuplicado.List.class)
-public @interface EmailDuplicado {
+@Repeatable(NotDuplicatedCategoria.List.class)
+public @interface NotDuplicatedCategoria {
 
-    String message() default "{email já cadastrado em nossa base de dados}";
+    String message() default "{categoria já cadastrada em nossa base de dados}";
 
     Class<?>[] groups() default { };
 
@@ -28,6 +29,6 @@ public @interface EmailDuplicado {
     @Retention(RUNTIME)
     @Documented
     @interface List {
-        EmailDuplicado[] value();
+        NotDuplicatedCategoria[] value();
     }
 }

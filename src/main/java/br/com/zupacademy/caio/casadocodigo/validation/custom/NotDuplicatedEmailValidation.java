@@ -7,11 +7,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
-public class EmailDuplicadoValidation implements ConstraintValidator<EmailDuplicado, String> {
+public class NotDuplicatedEmailValidation implements ConstraintValidator<NotDuplicatedEmail, String> {
 
     private AutorRepository autorRepository;
 
-    public EmailDuplicadoValidation(AutorRepository autorRepository) {
+    public NotDuplicatedEmailValidation(AutorRepository autorRepository) {
         this.autorRepository = autorRepository;
     }
 

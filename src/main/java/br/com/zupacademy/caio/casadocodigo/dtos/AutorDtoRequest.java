@@ -1,9 +1,8 @@
 package br.com.zupacademy.caio.casadocodigo.dtos;
 
 import br.com.zupacademy.caio.casadocodigo.model.Autor;
-import br.com.zupacademy.caio.casadocodigo.validation.custom.EmailDuplicado;
+import br.com.zupacademy.caio.casadocodigo.validation.custom.NotDuplicatedEmail;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -13,7 +12,7 @@ public class AutorDtoRequest {
     private String nome;
     @NotBlank
     @Email
-    @EmailDuplicado
+    @NotDuplicatedEmail
     private String email;
     @NotBlank
     private String descricao;
@@ -40,4 +39,6 @@ public class AutorDtoRequest {
     public String getDescricao() {
         return descricao;
     }
+
+
 }
