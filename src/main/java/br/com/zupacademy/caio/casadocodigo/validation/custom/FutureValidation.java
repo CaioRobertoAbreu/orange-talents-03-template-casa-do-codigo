@@ -15,10 +15,6 @@ public class FutureValidation implements ConstraintValidator<Future, LocalDate> 
     public boolean isValid(LocalDate data, ConstraintValidatorContext context) {
         LocalDate hoje = LocalDate.now();
 
-        if(data.isAfter(hoje)) {
-            return true;
-        }
-
-        return false;
+        return data.isAfter(hoje);
     }
 }

@@ -26,15 +26,14 @@ public class ObjectExistsValidation implements ConstraintValidator<ObjectExists,
 
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
-
         if(campo.equalsIgnoreCase("autor")) {
 
-            return autorRepository.findById(value).isPresent();
+            return autorRepository.existsById(value);
         }
 
         if (campo.equalsIgnoreCase("categoria")) {
 
-            return categoriaRepository.findById(value).isPresent();
+            return categoriaRepository.existsById(value);
         }
 
         return false;
