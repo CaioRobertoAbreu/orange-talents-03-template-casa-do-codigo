@@ -35,6 +35,7 @@ public class ValidationHandler {
             );
         });
 
+
         return ResponseEntity.badRequest().body(erros);
     }
 }
