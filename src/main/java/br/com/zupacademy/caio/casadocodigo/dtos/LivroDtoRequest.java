@@ -17,9 +17,9 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 public class LivroDtoRequest {
 
-    @NotEmpty @NotDuplicatedField(domain = "livro")
+    @NotEmpty @NotDuplicatedField(domain = Livro.class)
     private String isbn;
-    @NotEmpty @NotDuplicatedField(domain = "livro")
+    @NotEmpty @NotDuplicatedField(domain = Livro.class)
     private String titulo;
     @NotEmpty @Size(max = 500)
     private String resumo;
@@ -32,10 +32,10 @@ public class LivroDtoRequest {
     @Future
     private LocalDate dataPublicacao;
     @NotNull
-    @ObjectExists(campo = "categoria")
+    @ObjectExists(campo = Categoria.class)
     private Long categoria;
     @NotNull
-    @ObjectExists(campo = "autor")
+    @ObjectExists(campo =Autor.class)
     private Long autor;
 
 

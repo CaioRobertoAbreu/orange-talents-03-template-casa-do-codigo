@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 public class CategoriaDtoRequest {
 
     @NotEmpty
-    @NotDuplicatedField(domain = "categoria")
+    @NotDuplicatedField(domain = Categoria.class)
     private String nome;
 
     @JsonCreator

@@ -18,7 +18,7 @@ public class NotDuplicatedValidation implements ConstraintValidator<NotDuplicate
     private final CategoriaRepository categoriaRepository;
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
-    private String classeDominioNome;
+    private Class classeDominioNome;
 
     public NotDuplicatedValidation(CategoriaRepository categoriaRepository, AutorRepository autorRepository,
                                    LivroRepository livroRepository) {
@@ -37,20 +37,20 @@ public class NotDuplicatedValidation implements ConstraintValidator<NotDuplicate
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
         String value = obj.toString();
 
-       if (classeDominioNome.equalsIgnoreCase("categoria")) {
+       if (classeDominioNome.equals(Categoria.class)) {
 
            Optional<Categoria> categoriaOptional = categoriaRepository.findByNome(value);
 
            return categoriaOptional.isEmpty();
        }
 
-       if(classeDominioNome.equalsIgnoreCase("autor")) {
+       if(classeDominioNome.equals(Autor.class)) {
            Optional<Autor> emailOptional = autorRepository.findByEmail(value);
 
            return emailOptional.isEmpty();
        }
 
-       if(classeDominioNome.equalsIgnoreCase("livro")) {
+       if(classeDominioNome.equals(Livro.class)) {
            Optional<Livro> livroEncontradoTitulo = livroRepository.findByTitulo(value);
            Optional<Livro> livroEncontradoIsbn = livroRepository.findByIsbn(value);
 

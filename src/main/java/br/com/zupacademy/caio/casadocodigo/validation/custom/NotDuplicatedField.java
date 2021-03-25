@@ -21,5 +21,5 @@ public @interface NotDuplicatedField {
 
     Class<? extends Payload>[] payload() default { };
 
-    String domain();
+    Class domain();
 }

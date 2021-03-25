@@ -1,5 +1,7 @@
 package br.com.zupacademy.caio.casadocodigo.validation.custom;
 
+import br.com.zupacademy.caio.casadocodigo.model.Autor;
+import br.com.zupacademy.caio.casadocodigo.model.Categoria;
 import br.com.zupacademy.caio.casadocodigo.repository.AutorRepository;
 import br.com.zupacademy.caio.casadocodigo.repository.CategoriaRepository;
 
@@ -10,7 +12,7 @@ public class ObjectExistsValidation implements ConstraintValidator<ObjectExists,
 
     private final AutorRepository autorRepository;
     private final CategoriaRepository categoriaRepository;
-    private String campo;
+    private Class campo;
 
     public ObjectExistsValidation(AutorRepository autorRepository,
                                   CategoriaRepository categoriaRepository) {
@@ -26,12 +28,12 @@ public class ObjectExistsValidation implements ConstraintValidator<ObjectExists,
 
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
-        if(campo.equalsIgnoreCase("autor")) {
+        if(campo.equals(Autor.class)) {
 
             return autorRepository.existsById(value);
         }
 
-        if (campo.equalsIgnoreCase("categoria")) {
+        if (campo.equals(Categoria.class)) {
 
             return categoriaRepository.existsById(value);
         }
