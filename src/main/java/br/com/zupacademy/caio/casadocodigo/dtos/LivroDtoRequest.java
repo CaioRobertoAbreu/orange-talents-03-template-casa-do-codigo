@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 
-public class LivroDto {
+public class LivroDtoRequest {
 
     @NotEmpty @NotDuplicatedField(domain = "livro")
     private String isbn;
@@ -40,11 +40,11 @@ public class LivroDto {
 
 
 
-    public Livro toModel(LivroDto livroDto, Autor autor, Categoria categoria) {
+    public Livro toModel(LivroDtoRequest livroDtoRequest, Autor autor, Categoria categoria) {
 
-        return new Livro(livroDto.isbn, livroDto.titulo, livroDto.resumo,
-                livroDto.sumario, livroDto.preco, livroDto.numeroPaginas,
-               livroDto.dataPublicacao, categoria, autor);
+        return new Livro(livroDtoRequest.isbn, livroDtoRequest.titulo, livroDtoRequest.resumo,
+                livroDtoRequest.sumario, livroDtoRequest.preco, livroDtoRequest.numeroPaginas,
+               livroDtoRequest.dataPublicacao, categoria, autor);
 
     }
 

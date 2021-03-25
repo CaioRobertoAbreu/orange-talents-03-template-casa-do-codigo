@@ -1,24 +1,21 @@
 package br.com.zupacademy.caio.casadocodigo.controller;
 
-import br.com.zupacademy.caio.casadocodigo.dtos.LivroDto;
+import br.com.zupacademy.caio.casadocodigo.dtos.LivroDtoRequest;
+import br.com.zupacademy.caio.casadocodigo.dtos.LivroDtoResponse;
 import br.com.zupacademy.caio.casadocodigo.model.Autor;
 import br.com.zupacademy.caio.casadocodigo.model.Categoria;
 import br.com.zupacademy.caio.casadocodigo.model.Livro;
 import br.com.zupacademy.caio.casadocodigo.repository.AutorRepository;
 import br.com.zupacademy.caio.casadocodigo.repository.CategoriaRepository;
 import br.com.zupacademy.caio.casadocodigo.repository.LivroRepository;
-import br.com.zupacademy.caio.casadocodigo.validation.custom.ObjectExists;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/livros")
@@ -38,19 +35,26 @@ public class LivroController {
         this.livroRepository = livroRepository;
     }
 
+    @GetMapping
+    public ResponseEntity<List<LivroDtoResponse>> buscarTodos() {
+        List<Livro> todosLivros = livroRepository.findAll();
+
+        return ResponseEntity.ok(LivroDtoResponse.listaLivroDtoResponse(todosLivros));
+    }
+
     @PostMapping("/cadastrar")
     @Transactional
-    public ResponseEntity<?> cadastrar(@RequestBody @Valid LivroDto livroDto,
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid LivroDtoRequest livroDtoRequest,
                                        UriComponentsBuilder uriBuilder) {
 
-        Autor autor =  autorRepository.findById(livroDto.getAutor()).get();
-        Categoria categoria = categoriaRepository.findById(livroDto.getCategoria()).get();
+        Autor autor =  autorRepository.findById(livroDtoRequest.getAutor()).get();
+        Categoria categoria = categoriaRepository.findById(livroDtoRequest.getCategoria()).get();
 
-        Livro livro = livroDto.toModel(livroDto, autor, categoria);
+        Livro livro = livroDtoRequest.toModel(livroDtoRequest, autor, categoria);
 
         Livro livroSalvo = livroRepository.save(livro);
 
-        URI uri = uriBuilder.path("/livros/{isbn}").build(livroSalvo.getIsbn());
+        URI uri = uriBuilder.path("/livros/{id}").build(livroSalvo.getId());
 
         return ResponseEntity.created(uri).build();
     }
