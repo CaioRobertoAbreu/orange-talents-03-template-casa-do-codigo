@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LivroRepository extends CrudRepository<Livro, String> {
+public interface LivroRepository extends CrudRepository<Livro, Long> {
 
     Optional<Livro> findByTitulo(String value);
 
@@ -16,4 +16,5 @@ public interface LivroRepository extends CrudRepository<Livro, String> {
 
     @Override
     List<Livro> findAll();
+
 }

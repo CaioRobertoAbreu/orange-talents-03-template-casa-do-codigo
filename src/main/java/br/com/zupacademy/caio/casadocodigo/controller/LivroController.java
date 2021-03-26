@@ -1,5 +1,6 @@
 package br.com.zupacademy.caio.casadocodigo.controller;
 
+import br.com.zupacademy.caio.casadocodigo.dtos.DetalhesLivroDtoResponse;
 import br.com.zupacademy.caio.casadocodigo.dtos.LivroDtoRequest;
 import br.com.zupacademy.caio.casadocodigo.dtos.LivroDtoResponse;
 import br.com.zupacademy.caio.casadocodigo.model.Autor;
@@ -16,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/livros")
@@ -40,6 +42,19 @@ public class LivroController {
         List<Livro> todosLivros = livroRepository.findAll();
 
         return ResponseEntity.ok(LivroDtoResponse.listaLivroDtoResponse(todosLivros));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DetalhesLivroDtoResponse> buscarLivro(@PathVariable Long id) {
+        Optional<Livro> livroEncontrado = livroRepository.findById(id);
+
+        if(livroEncontrado.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        DetalhesLivroDtoResponse detalhesLivroDtoResponse = new DetalhesLivroDtoResponse(livroEncontrado.get());
+
+        return ResponseEntity.ok(detalhesLivroDtoResponse);
     }
 
     @PostMapping("/cadastrar")

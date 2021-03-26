@@ -17,11 +17,11 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 public class LivroDtoRequest {
 
-    @NotEmpty @NotDuplicatedField(domain = Livro.class)
+    @NotBlank @NotDuplicatedField(domain = Livro.class)
     private String isbn;
-    @NotEmpty @NotDuplicatedField(domain = Livro.class)
+    @NotBlank @NotDuplicatedField(domain = Livro.class)
     private String titulo;
-    @NotEmpty @Size(max = 500)
+    @NotBlank @Size(max = 500)
     private String resumo;
     private String sumario;
     @NotNull @Min(20) @Digits(integer = 6, fraction = 2)
