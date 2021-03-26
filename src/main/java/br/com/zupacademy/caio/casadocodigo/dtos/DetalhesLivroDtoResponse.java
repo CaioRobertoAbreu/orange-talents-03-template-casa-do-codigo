@@ -3,6 +3,7 @@ package br.com.zupacademy.caio.casadocodigo.dtos;
 import br.com.zupacademy.caio.casadocodigo.model.Livro;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 
 public class DetalhesLivroDtoResponse {
 
@@ -14,6 +15,7 @@ public class DetalhesLivroDtoResponse {
     private Integer numeroPaginas;
     private String autorNome;
     private String autorDescricao;
+    private String dataPublicacao;
 
     public DetalhesLivroDtoResponse(Livro livro) {
         this.isbn = livro.getIsbn();
@@ -24,6 +26,7 @@ public class DetalhesLivroDtoResponse {
         this.numeroPaginas = livro.getNumeroPaginas();
         this.autorNome = livro.getAutor().getNome();
         this.autorDescricao = livro.getAutor().getDescricao();
+        this.dataPublicacao = livro.getDataPublicacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public String getIsbn() {
@@ -56,5 +59,9 @@ public class DetalhesLivroDtoResponse {
 
     public String getAutorDescricao() {
         return autorDescricao;
+    }
+
+    public String getDataPublicacao() {
+        return dataPublicacao;
     }
 }
