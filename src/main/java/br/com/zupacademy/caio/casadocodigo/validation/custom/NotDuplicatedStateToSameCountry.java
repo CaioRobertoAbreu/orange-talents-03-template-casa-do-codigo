@@ -2,21 +2,21 @@ package br.com.zupacademy.caio.casadocodigo.validation.custom;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.Null;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target(FIELD)
+@Target({FIELD, TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = NotDuplicatedValidation.class)
+@Constraint(validatedBy = NotDuplicatedStateToSameCountryValidator.class)
 @Documented
-public @interface NotDuplicatedField {
+public @interface NotDuplicatedStateToSameCountry {
 
-    String message() default "{valor informado já cadastrado em nossa base de dados}";
+    String message() default "{Estado já cadastrado para este país}";
 
     Class<?>[] groups() default {};
 
@@ -24,6 +24,8 @@ public @interface NotDuplicatedField {
 
     Class domain();
 
-    String field();
+    String fieldCountry();
+
+    String fieldState();
 
 }

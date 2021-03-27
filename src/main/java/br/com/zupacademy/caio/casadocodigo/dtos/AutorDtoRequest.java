@@ -12,7 +12,7 @@ public class AutorDtoRequest {
     private String nome;
     @NotBlank
     @Email
-    @NotDuplicatedField(domain = Autor.class)
+    @NotDuplicatedField(domain = Autor.class, field = "email")
     private String email;
     @NotBlank
     private String descricao;

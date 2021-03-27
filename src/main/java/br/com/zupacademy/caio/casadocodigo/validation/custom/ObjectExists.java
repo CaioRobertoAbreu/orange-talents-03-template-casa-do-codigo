@@ -22,5 +22,7 @@ public @interface ObjectExists {
 
     Class<? extends Payload>[] payload() default { };
 
-    Class campo ();
+    Class<?> domain ();
+
+    String fieldName();
 }

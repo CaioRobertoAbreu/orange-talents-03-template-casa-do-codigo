@@ -1,62 +1,51 @@
 package br.com.zupacademy.caio.casadocodigo.validation.custom;
 
-import br.com.zupacademy.caio.casadocodigo.model.Autor;
-import br.com.zupacademy.caio.casadocodigo.model.Categoria;
-import br.com.zupacademy.caio.casadocodigo.model.Livro;
-import br.com.zupacademy.caio.casadocodigo.repository.AutorRepository;
-import br.com.zupacademy.caio.casadocodigo.repository.CategoriaRepository;
-import br.com.zupacademy.caio.casadocodigo.repository.LivroRepository;
+import org.springframework.util.Assert;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
-import java.util.Optional;
+
+/**
+ * Neste ponto para cada novo campo que necessitava desta validação
+ * tinha que ser injetado uma dependência de um repositório diferente,
+ * isso estava cheirando mal, então decidi refatorar o código.
+ */
 
 public class NotDuplicatedValidation implements ConstraintValidator<NotDuplicatedField, Object> {
 
 
-    private final CategoriaRepository categoriaRepository;
-    private final AutorRepository autorRepository;
-    private final LivroRepository livroRepository;
-    private Class classeDominioNome;
+    @PersistenceContext
+    private EntityManager entityManager;
+    private Class<?> classDomainName;
+    private String fieldName;
 
-    public NotDuplicatedValidation(CategoriaRepository categoriaRepository, AutorRepository autorRepository,
-                                   LivroRepository livroRepository) {
 
-        this.categoriaRepository = categoriaRepository;
-        this.autorRepository = autorRepository;
-        this.livroRepository = livroRepository;
+    public NotDuplicatedValidation(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     public void initialize(NotDuplicatedField constraintAnnotation) {
-        classeDominioNome = constraintAnnotation.domain();
+        classDomainName = constraintAnnotation.domain();
+        fieldName = constraintAnnotation.field();
     }
 
     @Override
-    public boolean isValid(Object obj, ConstraintValidatorContext context) {
-        String value = obj.toString();
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-       if (classeDominioNome.equals(Categoria.class)) {
+        Query query = entityManager.createQuery("SELECT 1 FROM " + classDomainName.getSimpleName() +
+                " WHERE " + fieldName + " = :value").setParameter("value", value);
 
-           Optional<Categoria> categoriaOptional = categoriaRepository.findByNome(value);
+        List<?> lista = query.getResultList();
 
-           return categoriaOptional.isEmpty();
-       }
+        Assert.state(lista.size() <= 1, "Há mais de um campo " + fieldName + "com valor " +
+        value + " na classe " + classDomainName.getSimpleName());
 
-       if(classeDominioNome.equals(Autor.class)) {
-           Optional<Autor> emailOptional = autorRepository.findByEmail(value);
+        return lista.isEmpty();
 
-           return emailOptional.isEmpty();
-       }
-
-       if(classeDominioNome.equals(Livro.class)) {
-           Optional<Livro> livroEncontradoTitulo = livroRepository.findByTitulo(value);
-           Optional<Livro> livroEncontradoIsbn = livroRepository.findByIsbn(value);
-
-           return livroEncontradoTitulo.isEmpty() && livroEncontradoIsbn.isEmpty();
-       }
-
-       return false;
     }
 }

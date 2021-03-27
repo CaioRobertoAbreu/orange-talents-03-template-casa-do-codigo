@@ -1,43 +1,47 @@
 package br.com.zupacademy.caio.casadocodigo.validation.custom;
 
-import br.com.zupacademy.caio.casadocodigo.model.Autor;
-import br.com.zupacademy.caio.casadocodigo.model.Categoria;
-import br.com.zupacademy.caio.casadocodigo.repository.AutorRepository;
-import br.com.zupacademy.caio.casadocodigo.repository.CategoriaRepository;
+import org.springframework.util.Assert;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.List;
 
+/**
+ * Neste ponto para cada novo campo que necessitava desta validação
+ * tinha que ser injetado uma dependência de um repositório diferente,
+ * isso estava cheirando mal, então decidi refatorar o código.
+ */
 public class ObjectExistsValidation implements ConstraintValidator<ObjectExists, Long> {
 
-    private final AutorRepository autorRepository;
-    private final CategoriaRepository categoriaRepository;
-    private Class campo;
+    @PersistenceContext
+    private EntityManager entityManager;
+    private Class domain;
+    private String fieldName;
 
-    public ObjectExistsValidation(AutorRepository autorRepository,
-                                  CategoriaRepository categoriaRepository) {
-
-        this.autorRepository = autorRepository;
-        this.categoriaRepository = categoriaRepository;
+    public ObjectExistsValidation(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     public void initialize(ObjectExists constraintAnnotation) {
-        campo = constraintAnnotation.campo();
+        domain = constraintAnnotation.domain();
+        fieldName = constraintAnnotation.fieldName();
     }
 
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
-        if(campo.equals(Autor.class)) {
 
-            return autorRepository.existsById(value);
-        }
+        Query query = entityManager.createQuery("SELECT 1 FROM " + domain.getSimpleName() + " WHERE " +
+                fieldName + " = :value").setParameter("value", value);
 
-        if (campo.equals(Categoria.class)) {
+        List<?> lista = query.getResultList();
 
-            return categoriaRepository.existsById(value);
-        }
+        Assert.state(lista.size() <= 1, "Há mais de um campo " + fieldName + "com valor " +
+                value + " na classe " + domain.getSimpleName());
 
-        return false;
+        return !lista.isEmpty();
     }
 }
