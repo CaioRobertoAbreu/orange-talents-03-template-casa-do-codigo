@@ -13,7 +13,6 @@ public class Estado {
     @ManyToOne
     private Pais pais;
 
-    @Deprecated
     public Estado() {
     }
 
@@ -22,4 +21,7 @@ public class Estado {
         this.pais = pais;
     }
 
+    public String getNome() {
+        return nome;
+    }
 }

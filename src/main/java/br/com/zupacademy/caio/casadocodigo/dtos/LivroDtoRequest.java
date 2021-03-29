@@ -38,8 +38,6 @@ public class LivroDtoRequest {
     @ObjectExists(domain =Autor.class, fieldName = "id")
     private Long autor;
 
-
-
     public Livro toModel(LivroDtoRequest livroDtoRequest, Autor autor, Categoria categoria) {
 
         return new Livro(livroDtoRequest.isbn, livroDtoRequest.titulo, livroDtoRequest.resumo,
