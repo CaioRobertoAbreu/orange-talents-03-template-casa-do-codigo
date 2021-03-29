@@ -36,6 +36,7 @@ public class ClienteRequestDto {
     @NotNull
     @ObjectExists(domain = Pais.class, fieldName = "id")
     private Long pais;
+    @ObjectExists(domain = Estado.class, fieldName = "id")
     private Long estado;
     @NotBlank
     private String telefone;

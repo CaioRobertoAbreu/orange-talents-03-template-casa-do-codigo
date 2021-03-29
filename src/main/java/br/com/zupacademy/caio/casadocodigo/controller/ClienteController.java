@@ -7,6 +7,7 @@ import br.com.zupacademy.caio.casadocodigo.model.Pais;
 import br.com.zupacademy.caio.casadocodigo.repository.ClienteRepository;
 import br.com.zupacademy.caio.casadocodigo.repository.EstadoRepository;
 import br.com.zupacademy.caio.casadocodigo.repository.PaisRepository;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,4 +51,5 @@ public class ClienteController {
 
         return ResponseEntity.ok(cliente.getId());
     }
+
 }
